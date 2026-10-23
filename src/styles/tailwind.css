@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/* Tokens de diseño. Ver PLAN.md, apartado 3. */
+@theme {
+  /* Color: fondo dominante, campos, tinta y un acento solo para acciones */
+  --color-cream: #f7f1ea;
+  --color-nude: #e8d8ca;
+  --color-blush: #f1ddd7;
+  --color-ink: #2b221e;
+  --color-ink-soft: #6a5850;
+  --color-rose: #8b4a47;
+  --color-rose-press: #743c39;
+
+  /* Una sola familia, con eje óptico */
+  --font-serif: "Newsreader Variable", Georgia, serif;
+
+  --text-display: clamp(2.75rem, 1.5rem + 4.8vw, 6rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.02em;
+  --text-h2: clamp(2.25rem, 1.5rem + 2.8vw, 4rem);
+  --text-h2--line-height: 1.05;
+  --text-h2--letter-spacing: -0.015em;
+  --text-h3: 1.75rem;
+  --text-h3--line-height: 1.2;
+  --text-lead: 1.375rem;
+  --text-lead--line-height: 1.45;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.6;
+  --text-small: 1rem;
+  --text-small--line-height: 1.5;
+
+  /* Espaciado y layout */
+  --spacing-gutter: clamp(1.25rem, 4vw, 4rem);
+  --spacing-section: clamp(5rem, 2rem + 9vw, 12rem);
+  --spacing-half-section: clamp(2.5rem, 1rem + 4.5vw, 6rem);
+  --container-page: 80rem;
+
+  /* Movimiento: una sola curva para entradas y salidas */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --default-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  --default-transition-duration: 200ms;
+}
+
+/* Hover solo con puntero fino real (evita hovers pegados en táctil) */
+@custom-variant hover-fine {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
+@custom-variant group-hover-fine {
+  @media (hover: hover) and (pointer: fine) {
+    :where(.group):hover & {
+      @slot;
+    }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    overscroll-behavior: none;
+    scroll-padding-top: 1.5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    overscroll-behavior: none;
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-optical-sizing: auto;
+    text-rendering: optimizeLegibility;
+  }
+
+  a,
+  button,
+  select,
+  label,
+  summary {
+    touch-action: manipulation;
+  }
+
+  /* Solo los controles no se seleccionan; el texto del cuerpo sí */
+  button,
+  [role="slider"] {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: max(16px, 1rem);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-rose);
+    outline-offset: 3px;
+  }
+}
