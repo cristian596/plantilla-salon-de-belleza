@@ -11,7 +11,7 @@ export function Services() {
     <Section id="servicios" labelledBy="servicios-title">
       <Container className="grid gap-12 lg:grid-cols-12 lg:gap-0">
         <div className="lg:col-span-4 lg:mr-12">
-          <RevealGroup className="bg-nude p-6 sm:p-8 lg:sticky lg:top-8">
+          <RevealGroup className="bg-nude p-6 sm:p-8 lg:sticky lg:top-[calc(7rem+env(safe-area-inset-top))]">
             <Reveal as="h2" id="servicios-title" className="max-w-[12ch] text-h2 font-light text-balance lg:text-[clamp(2.25rem,1rem+1.9vw,3rem)]">
               {copy.services.title}
             </Reveal>

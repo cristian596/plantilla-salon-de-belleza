@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { REVEAL_DELAY_MS } from '../lib/motion.js'
 
 // Se activa una sola vez. Si no hay IntersectionObserver, muestra el contenido de inmediato.
 export function useReveal({ immediate = false, threshold = 0.15 } = {}) {
@@ -8,7 +9,7 @@ export function useReveal({ immediate = false, threshold = 0.15 } = {}) {
   useEffect(() => {
     if (immediate) {
       // setTimeout y no requestAnimationFrame: rAF no corre en pestañas en segundo plano
-      const timer = setTimeout(() => setShown(true), 30)
+      const timer = setTimeout(() => setShown(true), REVEAL_DELAY_MS)
       return () => clearTimeout(timer)
     }
     const el = ref.current

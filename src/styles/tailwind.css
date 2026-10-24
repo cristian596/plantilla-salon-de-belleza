@@ -39,6 +39,10 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --default-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
   --default-transition-duration: 200ms;
+  --duration-press: 120ms;
+  --duration-ui: 200ms;
+  --duration-enter: 300ms;
+  --duration-feedback: 150ms;
 }
 
 /* Hover solo con puntero fino real (evita hovers pegados en táctil) */
@@ -63,7 +67,7 @@
     -webkit-tap-highlight-color: transparent;
     -webkit-text-size-adjust: 100%;
     overscroll-behavior: none;
-    scroll-padding-top: 1.5rem;
+    scroll-padding-top: calc(5rem + env(safe-area-inset-top));
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -108,4 +112,18 @@
     outline: 2px solid var(--color-rose);
     outline-offset: 3px;
   }
+}
+
+/* Tailwind v4 no genera duration-* desde --duration-*; estas utilidades leen los tokens. */
+@utility duration-press {
+  transition-duration: var(--duration-press);
+}
+@utility duration-ui {
+  transition-duration: var(--duration-ui);
+}
+@utility duration-enter {
+  transition-duration: var(--duration-enter);
+}
+@utility duration-feedback {
+  transition-duration: var(--duration-feedback);
 }

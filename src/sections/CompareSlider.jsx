@@ -2,17 +2,32 @@ import { useEffect, useRef, useState } from 'react'
 import { Picture } from '../components/Picture.jsx'
 import { PendingNote } from '../components/PendingNote.jsx'
 import { useReducedMotion } from '../hooks/useReducedMotion.js'
+import { DRAG_STEP_MS, NUDGE_MS, REVEAL_SETTLE_MS } from '../lib/motion.js'
 import { copy } from '../content/copy.js'
 
 const clamp = (n) => Math.min(100, Math.max(0, n))
 const KEY_STEP = 5
 const BIG_STEP = 10
-const NUDGE_MS = 280
 
-// Comparador antes/después. Todo se mueve con transform:
+// Imágenes de un caso. Todo se mueve con transform:
 // la capa "antes" se desplaza y su imagen se contra-desplaza, así recorta sin animar width ni clip-path.
-export function CompareSlider({ item, nudge = false, onInteract }) {
-  const [pos, setPos] = useState(50)
+function Layers({ item, alt = true, pos, transition }) {
+  const sizes = '(min-width: 1024px) 60vw, 100vw'
+  return (
+    <>
+      <Picture id={item.after.id} alt={alt ? item.after.alt : ''} ratio={0.75} sizes={sizes} />
+      <div className="absolute inset-0 overflow-hidden" style={{ transform: `translateX(${pos - 100}%)`, transition }}>
+        <div className="absolute inset-0" style={{ transform: `translateX(${100 - pos}%)`, transition }}>
+          <Picture id={item.before.id} alt={alt ? item.before.alt : ''} ratio={0.75} sizes={sizes} />
+        </div>
+      </div>
+    </>
+  )
+}
+
+// La posición vive en el padre (pos, setPos) para sobrevivir al cambio de caso.
+// outgoing: caso anterior, apilado encima y desvaneciéndose mientras el nuevo queda debajo.
+export function CompareSlider({ item, outgoing = null, pos, setPos, nudge = false, onInteract }) {
   const [transitionMs, setTransitionMs] = useState(0)
   const boxRef = useRef(null)
   const frameRef = useRef(0)
@@ -30,10 +45,16 @@ export function CompareSlider({ item, nudge = false, onInteract }) {
         if (!entry.isIntersecting) return
         observer.disconnect()
         if (interactedRef.current) return
-        setTransitionMs(NUDGE_MS)
-        setPos(42)
-        timers.push(setTimeout(() => !interactedRef.current && setPos(50), NUDGE_MS))
-        timers.push(setTimeout(() => !interactedRef.current && setTransitionMs(0), NUDGE_MS * 2))
+        // Espera a que el contenedor termine de entrar (Reveal) antes del empujón
+        timers.push(
+          setTimeout(() => {
+            if (interactedRef.current) return
+            setTransitionMs(NUDGE_MS)
+            setPos(42)
+            timers.push(setTimeout(() => !interactedRef.current && setPos(50), NUDGE_MS))
+            timers.push(setTimeout(() => !interactedRef.current && setTransitionMs(0), NUDGE_MS * 2))
+          }, REVEAL_SETTLE_MS),
+        )
       },
       { threshold: 0.6 },
     )
@@ -42,7 +63,7 @@ export function CompareSlider({ item, nudge = false, onInteract }) {
       observer.disconnect()
       timers.forEach(clearTimeout)
     }
-  }, [nudge, reduced])
+  }, [nudge, reduced, setPos])
 
   useEffect(() => () => cancelAnimationFrame(frameRef.current), [])
 
@@ -83,7 +104,7 @@ export function CompareSlider({ item, nudge = false, onInteract }) {
   function onBoxPointerDown(e) {
     if (e.pointerType !== 'mouse' || e.button !== 0) return
     markInteracted()
-    setTransitionMs(reduced ? 0 : 150)
+    setTransitionMs(reduced ? 0 : DRAG_STEP_MS)
     moveTo(e.clientX)
   }
 
@@ -102,7 +123,7 @@ export function CompareSlider({ item, nudge = false, onInteract }) {
     if (!(e.key in moves)) return
     e.preventDefault()
     markInteracted()
-    setTransitionMs(reduced ? 0 : 150)
+    setTransitionMs(reduced ? 0 : DRAG_STEP_MS)
     setPos((p) => clamp(moves[e.key](p)))
   }
 
@@ -115,16 +136,16 @@ export function CompareSlider({ item, nudge = false, onInteract }) {
       onPointerDown={onBoxPointerDown}
       className="relative aspect-[4/5] touch-pan-y overflow-hidden bg-nude select-none md:aspect-[16/10]"
     >
-      <Picture id={item.after.id} alt={item.after.alt} ratio={0.75} sizes="(min-width: 1024px) 60vw, 100vw" />
-
-      <div
-        className="absolute inset-0 overflow-hidden"
-        style={{ transform: `translateX(${pos - 100}%)`, transition }}
-      >
-        <div className="absolute inset-0" style={{ transform: `translateX(${100 - pos}%)`, transition }}>
-          <Picture id={item.before.id} alt={item.before.alt} ratio={0.75} sizes="(min-width: 1024px) 60vw, 100vw" />
+      <Layers item={item} pos={pos} transition={transition} />
+      {outgoing && (
+        <div
+          key={outgoing.id}
+          aria-hidden="true"
+          className="absolute inset-0 bg-nude opacity-0 transition-opacity duration-ui ease-out starting:opacity-100 motion-reduce:transition-none"
+        >
+          <Layers item={outgoing} alt={false} pos={pos} transition={transition} />
         </div>
-      </div>
+      )}
 
       <span aria-hidden="true" className="absolute top-3 left-3 bg-cream/90 px-3 py-1 text-small">
         Antes

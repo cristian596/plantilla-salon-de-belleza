@@ -1,8 +1,10 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Container } from '../components/Container.jsx'
 import { Section } from '../components/Section.jsx'
 import { Reveal, RevealGroup } from '../components/Reveal.jsx'
 import { CompareSlider } from './CompareSlider.jsx'
+import { useReducedMotion } from '../hooks/useReducedMotion.js'
+import { CASE_FADE_MS } from '../lib/motion.js'
 import { cases } from '../content/cases.js'
 import { copy } from '../content/copy.js'
 
@@ -10,8 +12,19 @@ import { copy } from '../content/copy.js'
 // Móvil: título → comparador → selector → ficha.
 export function BeforeAfter() {
   const [activeId, setActiveId] = useState(cases[0].id)
+  const [outgoingId, setOutgoingId] = useState(null)
+  const [pos, setPos] = useState(50)
   const nudgedRef = useRef(false)
+  const reduced = useReducedMotion()
   const active = cases.find((c) => c.id === activeId)
+  const outgoing = cases.find((c) => c.id === outgoingId) ?? null
+
+  // El caso saliente se desmonta cuando termina su fundido (de inmediato con reduced motion)
+  useEffect(() => {
+    if (!outgoingId) return
+    const timer = setTimeout(() => setOutgoingId(null), reduced ? 0 : CASE_FADE_MS)
+    return () => clearTimeout(timer)
+  }, [outgoingId, reduced])
 
   return (
     <Section id="antes-despues" labelledBy="antes-despues-title">
@@ -24,17 +37,15 @@ export function BeforeAfter() {
         </Reveal>
 
         <Reveal index={1} className="lg:col-span-8 lg:col-start-1 lg:row-span-2 lg:row-start-1">
-          {/* key: al cambiar de caso se monta de nuevo y entra con un fundido de opacidad */}
-          <div
-            key={active.id}
-            className="transition-opacity duration-200 ease-out starting:opacity-0 motion-reduce:transition-none"
-          >
-            <CompareSlider
-              item={active}
-              nudge={!nudgedRef.current}
-              onInteract={() => (nudgedRef.current = true)}
-            />
-          </div>
+          {/* Sin key: el tirador conserva su posición; el caso anterior se desvanece encima */}
+          <CompareSlider
+            item={active}
+            outgoing={outgoing}
+            pos={pos}
+            setPos={setPos}
+            nudge={!nudgedRef.current}
+            onInteract={() => (nudgedRef.current = true)}
+          />
         </Reveal>
 
         <Reveal index={2} className="lg:col-span-4 lg:col-start-9 lg:row-start-2 lg:self-start">
@@ -46,6 +57,8 @@ export function BeforeAfter() {
                 aria-pressed={c.id === activeId}
                 onClick={() => {
                   nudgedRef.current = true
+                  if (c.id === activeId) return
+                  setOutgoingId(activeId)
                   setActiveId(c.id)
                 }}
                 className={`-mb-px min-h-12 border-b-2 text-body ${

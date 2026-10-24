@@ -3,7 +3,7 @@ import { Container } from '../components/Container.jsx'
 import { Button } from '../components/Button.jsx'
 import { nav, site } from '../content/site.js'
 
-// Sin animación: es un control de uso constante.
+// Fijo arriba en todos los tamaños. Sin animación: es un control de uso constante.
 export function Header() {
   const [open, setOpen] = useState(false)
   const toggleRef = useRef(null)
@@ -42,7 +42,7 @@ export function Header() {
   }, [open])
 
   return (
-    <header className="pt-[env(safe-area-inset-top)]">
+    <header className="fixed inset-x-0 top-0 z-40 bg-cream pt-[env(safe-area-inset-top)]">
       <Container className="flex h-20 items-center justify-between gap-6">
         <a href="#inicio" className="text-[1.375rem] leading-none tracking-[0.01em]">
           {site.name}

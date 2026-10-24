@@ -4,7 +4,7 @@ export function Arrow({ className = '' }) {
     <svg
       aria-hidden="true"
       viewBox="0 0 16 16"
-      className={`size-4 shrink-0 transition-[translate] duration-200 ease-out group-hover-fine:translate-x-1 motion-reduce:transition-none ${className}`}
+      className={`size-4 shrink-0 transition-[translate] duration-ui ease-out group-hover-fine:not-motion-reduce:translate-x-1 motion-reduce:transition-none ${className}`}
       fill="none"
       stroke="currentColor"
       strokeWidth="1.5"

@@ -138,7 +138,7 @@ export function BookingForm({ request }) {
         <div aria-live="polite" className="mt-4">
           {status && (
             <p
-              className={`border-l-2 pl-4 text-body ${status.ok ? 'border-ink' : 'border-rose-press'} transition-opacity duration-150 ease-out starting:opacity-0 motion-reduce:transition-none`}
+              className={`border-l-2 pl-4 text-body ${status.ok ? 'border-ink' : 'border-rose-press'} transition-opacity duration-feedback ease-out starting:opacity-0 motion-reduce:transition-none`}
             >
               {status.text}
             </p>
@@ -162,7 +162,7 @@ function Field({ name, label, optional, error, hint, wide, children }) {
       {error && (
         <p
           id={`${id}-error`}
-          className="mt-2 text-small text-rose-press transition-opacity duration-150 ease-out starting:opacity-0 motion-reduce:transition-none"
+          className="mt-2 text-small text-rose-press transition-opacity duration-feedback ease-out starting:opacity-0 motion-reduce:transition-none"
         >
           {error}
         </p>

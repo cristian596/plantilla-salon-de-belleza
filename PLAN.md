@@ -119,7 +119,7 @@ Responsabilidades: **las secciones no contienen texto fijo**, todo sale de `cont
 
 Cada sección tiene una composición distinta a la anterior. La línea de 1px (`Rule`) aparece donde divide contenido real.
 
-**Header** (sin animación, no fijo en escritorio). Wordmark `[NOMBRE DEL SALÓN]` en texto, enlaces Servicios · Resultados · Promociones · Equipo, y botón "Solicitar cita". En móvil: wordmark + botón "Menú" que abre una hoja a pantalla completa, sin animación.
+**Header** (sin animación; **fijo arriba** en escritorio y móvil: `fixed inset-x-0 top-0 z-40 bg-cream`, sin sombra, borde, blur ni transparencia, con `env(safe-area-inset-top)`; el menú móvil, `z-50`, queda por encima). Para que no tape contenido: `scroll-padding-top: calc(5rem + env(safe-area-inset-top))` en `html`, el hero lleva `pt-[calc(5rem+env(safe-area-inset-top))]` con `lg:min-h-svh`, y la columna `sticky` de Servicios baja a `top-[calc(7rem+…)]`. Wordmark `[NOMBRE DEL SALÓN]` en texto, enlaces Servicios · Resultados · Promociones · Equipo, y botón "Solicitar cita". En móvil: wordmark + botón "Menú" que abre una hoja a pantalla completa, sin animación.
 
 **1. Hero** (`min-h-[100svh]`). Escritorio: 5 columnas de texto sobre cream | línea vertical | 7 columnas con una foto retrato 4:5 grande dentro del contenedor (márgenes simétricos). `h1` en dos líneas, por ejemplo **"Cuidado que se nota. Resultados que se ven."** [CONFIRMAR copy], una línea de apoyo que nombra los 4 servicios y la ciudad [CIUDAD], el botón primario "Solicitar cita" (ancla a #reservas) y el enlace "Ver tratamientos". Móvil (composición propia): foto 4:5 recortada a ~48svh arriba, debajo el h1 + CTA; **el CTA debe verse sin scroll en 390×700**. Foto: placeholder de Unsplash (retrato cálido, fondo neutro) → **[FOTO REAL: retrato en cabina del salón]**.
 
@@ -141,7 +141,7 @@ Cada sección tiene una composición distinta a la anterior. La línea de 1px (`
 
 **8. Pie** (cream, línea superior de 1px). Wordmark grande, y tres bloques: Contacto ([DIRECCIÓN], [TELÉFONO], [EMAIL]), Horario ([DÍAS/HORAS]) y Redes como **enlaces de texto** (Instagram, TikTok, Facebook; sin logos de marca). Debajo, aviso legal/privacidad [ENLACE PENDIENTE] y año.
 
-**MobileBookingBar** (solo `< md`): barra fija inferior con "Solicitar cita". Aparece cuando el hero sale de pantalla y se oculta en `#reservas`, sin animación. Padding `env(safe-area-inset-bottom)`.
+**MobileBookingBar** (solo `< md`): barra fija inferior con "Solicitar cita". Aparece cuando el hero sale de pantalla y se oculta en `#reservas`, con desplazamiento de 200ms (sin él con reduced motion). Padding `env(safe-area-inset-bottom)`.
 
 ---
 
@@ -183,10 +183,11 @@ Cada sección tiene una composición distinta a la anterior. La línea de 1px (`
 | Cambio de color en hover | — | cambio instantáneo, sin transición | — | — | `hover-fine` |
 | Comparador: pasos de teclado | transform | a la nueva posición | 150ms | ease-out | Tecla |
 | Comparador: arrastre | transform | sigue al puntero | 0 | — | Puntero |
-| Comparador: cambio de caso | opacity | 0→1 | 200ms | ease-out | Clic en el selector |
-| **Movimiento de firma:** empujón del comparador | transform (tirador + capa) | 50 %→42 %→50 % | 2 × 280ms | ease-out | Una sola vez al entrar en pantalla, solo si no hubo interacción |
+| Comparador: cambio de caso | opacity | el caso saliente 1→0 sobre el entrante; el tirador conserva su posición | 200ms | ease-out | Clic en el selector |
+| **Movimiento de firma:** empujón del comparador | transform (tirador + capa) | 50 %→42 %→50 % | 2 × 280ms | ease-out | Una sola vez, 400ms después de entrar en pantalla, solo si no hubo interacción |
 | Mensaje de error del formulario | opacity | 0→1 | 150ms | ease-out | Al aparecer |
-| Header, menú móvil, barra móvil | — | **sin animación** (uso constante) | — | — | — |
+| Header fijo y menú móvil | — | **sin animación** (uso constante; el header queda fijo al hacer scroll, sin transición) | — | — | — |
+| Barra móvil: aparecer/ocultar | transform | translateY 100%→0 (visibility acompaña) | 200ms | ease-out | Hero fuera de vista / `#reservas` |
 
 **El movimiento de firma** es el empujón del comparador: enseña que la línea se mueve y resume la idea central en un solo gesto. **Reduced motion:** `motion-reduce:` deja todo en opacity 1 y translate 0 desde el inicio (contenido siempre visible), quita escalas, el empujón y el fundido. **Sin JS o sin IntersectionObserver:** el contenido se muestra (el estado oculto solo se aplica cuando el hook confirma que puede revelarlo). Nunca `scale(0)` ni `ease-in`.
 

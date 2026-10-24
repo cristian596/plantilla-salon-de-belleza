@@ -3,7 +3,7 @@
 export function Section({ id, labelledBy, band = false, className = '', children }) {
   const spacing = band ? 'py-section' : 'py-half-section'
   return (
-    <section id={id} aria-labelledby={labelledBy} className={`scroll-mt-4 ${spacing} ${className}`}>
+    <section id={id} aria-labelledby={labelledBy} className={`${spacing} ${className}`}>
       {children}
     </section>
   )

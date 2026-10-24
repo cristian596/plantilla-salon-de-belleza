@@ -12,7 +12,7 @@ export function Hero() {
     <section
       id="inicio"
       aria-labelledby="hero-title"
-      className="pb-half-section lg:flex lg:min-h-[calc(100svh-5rem)] lg:items-stretch"
+      className="pt-[calc(5rem+env(safe-area-inset-top))] pb-half-section lg:flex lg:min-h-svh lg:items-stretch"
     >
       <Container className="grid lg:grid-cols-12">
         <div className="h-[40svh] min-h-64 lg:order-2 lg:col-span-6 lg:h-auto lg:min-h-[32rem] lg:border-l lg:border-ink/25 lg:pb-10 lg:pl-10">
