@@ -1,4 +1,5 @@
 import { serviceLabel } from '../content/services.js'
+import { copy } from '../content/copy.js'
 
 export function formatDate(isoDate) {
   if (!isoDate) return ''
@@ -17,6 +18,7 @@ export function buildMessage(values, salonName) {
     `Hora preferida: ${values.time}`,
   ]
   if (values.comment.trim()) lines.push(`Comentario: ${values.comment.trim()}`)
+  lines.push('', copy.booking.consent.messageLine)
   return lines.join('\n')
 }
 

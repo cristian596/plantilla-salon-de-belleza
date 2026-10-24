@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Container } from '../components/Container.jsx'
 import { Button } from '../components/Button.jsx'
 import { nav, site } from '../content/site.js'
@@ -8,6 +9,8 @@ export function Header() {
   const [open, setOpen] = useState(false)
   const toggleRef = useRef(null)
   const sheetRef = useRef(null)
+  // Fuera de la home, las anclas llevan a la home (/#servicios)
+  const base = useLocation().pathname === '/' ? '' : '/'
 
   useEffect(() => {
     if (!open) return
@@ -44,7 +47,7 @@ export function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-40 bg-cream pt-[env(safe-area-inset-top)]">
       <Container className="flex h-20 items-center justify-between gap-6">
-        <a href="#inicio" className="text-[1.375rem] leading-none tracking-[0.01em]">
+        <a href={`${base}#inicio`} className="text-[1.375rem] leading-none tracking-[0.01em]">
           {site.name}
         </a>
 
@@ -53,7 +56,7 @@ export function Header() {
             {nav.map((item) => (
               <li key={item.href}>
                 <a
-                  href={item.href}
+                  href={`${base}${item.href}`}
                   className="underline decoration-transparent underline-offset-6 hover-fine:decoration-ink"
                 >
                   {item.label}
@@ -64,7 +67,7 @@ export function Header() {
         </nav>
 
         <div className="hidden lg:block">
-          <Button href="#reservas">Solicitar cita</Button>
+          <Button href={`${base}#reservas`}>Solicitar cita</Button>
         </div>
 
         <button
@@ -105,13 +108,13 @@ export function Header() {
             <ul className="border-t border-ink/25">
               {nav.map((item) => (
                 <li key={item.href} className="border-b border-ink/25">
-                  <a href={item.href} className="block py-4 text-h3" onClick={() => setOpen(false)}>
+                  <a href={`${base}${item.href}`} className="block py-4 text-h3" onClick={() => setOpen(false)}>
                     {item.label}
                   </a>
                 </li>
               ))}
             </ul>
-            <Button href="#reservas" className="w-full" onClick={() => setOpen(false)}>
+            <Button href={`${base}#reservas`} className="w-full" onClick={() => setOpen(false)}>
               Solicitar cita
             </Button>
           </Container>

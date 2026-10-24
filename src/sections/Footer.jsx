@@ -1,11 +1,15 @@
+import { Link } from 'react-router-dom'
 import { Container } from '../components/Container.jsx'
 import { site } from '../content/site.js'
+import { copy } from '../content/copy.js'
+import { openPreferences } from '../lib/consent.js'
 
 // Redes como enlaces de texto, sin logos de marca.
 export function Footer() {
   const linkClass = 'underline decoration-ink/40 underline-offset-6 hover-fine:decoration-ink'
+  const legalLink = `inline-flex min-h-12 items-center ${linkClass}`
   return (
-    <footer className="border-t border-ink/25 pt-half-section pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-[calc(2rem+env(safe-area-inset-bottom))]">
+    <footer className="border-t border-ink/25 pt-half-section pb-[calc(6rem+var(--cookie-banner-h,0px)+env(safe-area-inset-bottom))] md:pb-[calc(2rem+var(--cookie-banner-h,0px)+env(safe-area-inset-bottom))]">
       <Container>
         <p className="text-h2 font-light">{site.name}</p>
 
@@ -71,13 +75,28 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {site.name}
           </p>
-          {site.privacyHref ? (
-            <a href={site.privacyHref} className={linkClass}>
-              Política de privacidad
-            </a>
-          ) : (
-            <p>Política de privacidad [pendiente]</p>
-          )}
+          <ul className="flex flex-wrap gap-x-8">
+            <li>
+              <Link to="/privacidad" className={legalLink}>
+                Política de privacidad
+              </Link>
+            </li>
+            <li>
+              <Link to="/tratamiento-de-datos" className={legalLink}>
+                Tratamiento de datos
+              </Link>
+            </li>
+            <li>
+              <Link to="/cookies" className={legalLink}>
+                Política de cookies
+              </Link>
+            </li>
+            <li>
+              <button type="button" onClick={() => openPreferences()} className={legalLink}>
+                {copy.cookies.footerButton}
+              </button>
+            </li>
+          </ul>
         </div>
       </Container>
     </footer>

@@ -1,6 +1,7 @@
 import { site } from '../content/site.js'
+import { copy } from '../content/copy.js'
 
-export const fieldOrder = ['name', 'phone', 'service', 'date', 'time', 'comment']
+export const fieldOrder = ['name', 'phone', 'service', 'date', 'time', 'comment', 'consent']
 
 export function todayISO() {
   const d = new Date()
@@ -28,6 +29,7 @@ const rules = {
   },
   time: (v) => (v ? '' : 'Elige una hora preferida.'),
   comment: (v) => (v.length > 500 ? 'El comentario puede tener hasta 500 caracteres.' : ''),
+  consent: (v) => (v === true ? '' : copy.booking.consent.error),
 }
 
 export function validateField(name, values) {

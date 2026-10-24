@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Button } from '../components/Button.jsx'
+import { ArrowLink } from '../components/ArrowLink.jsx'
 import { serviceGroups, serviceValue } from '../content/services.js'
 import { site } from '../content/site.js'
 import { copy } from '../content/copy.js'
 import { fieldOrder, todayISO, validate, validateField } from '../lib/validation.js'
 import { buildMessage, buildWhatsAppUrl } from '../lib/whatsapp.js'
 
-const empty = { name: '', phone: '', service: '', date: '', time: '', comment: '' }
+const empty = { name: '', phone: '', service: '', date: '', time: '', comment: '', consent: false }
 
 const control =
   'mt-2 block min-h-12 w-full rounded-none border border-ink/60 bg-cream px-4 text-base text-ink placeholder:text-ink-soft focus-visible:border-ink aria-invalid:border-2 aria-invalid:border-rose-press'
@@ -24,7 +26,8 @@ export function BookingForm({ request }) {
   }, [request])
 
   function update(e) {
-    const { name, value } = e.target
+    const { name, type, checked } = e.target
+    const value = type === 'checkbox' ? checked : e.target.value
     setValues((v) => ({ ...v, [name]: value }))
     if (attempted && errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: validateField(name, { ...values, [name]: value }) }))
@@ -130,7 +133,36 @@ export function BookingForm({ request }) {
         </Field>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-6">
+        <label htmlFor="cita-consent" className="flex min-h-12 cursor-pointer items-start gap-3 py-3 text-small">
+          <input
+            id="cita-consent"
+            name="consent"
+            type="checkbox"
+            checked={values.consent}
+            onChange={update}
+            onBlur={onBlur}
+            aria-invalid={errors.consent ? true : undefined}
+            aria-describedby={errors.consent ? 'cita-consent-error' : undefined}
+            className="mt-0.5 size-6 shrink-0 accent-rose aria-invalid:outline-2 aria-invalid:outline-rose-press"
+          />
+          <span>{copy.booking.consent.label}</span>
+        </label>
+        {/* Enlace fuera del label: clicarlo no marca la casilla */}
+        <ArrowLink as={Link} to="/tratamiento-de-datos" className="ml-9">
+          {copy.booking.consent.link}
+        </ArrowLink>
+        {errors.consent && (
+          <p
+            id="cita-consent-error"
+            className="mt-1 text-small text-rose-press transition-opacity duration-feedback ease-out starting:opacity-0 motion-reduce:transition-none"
+          >
+            {errors.consent}
+          </p>
+        )}
+      </div>
+
+      <div className="mt-6">
         <Button as="button" type="submit" className="w-full sm:w-auto">
           {copy.booking.submit}
         </Button>

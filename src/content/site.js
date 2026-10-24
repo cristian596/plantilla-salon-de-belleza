@@ -26,7 +26,8 @@ export const site = {
     { label: 'TikTok', href: '' },
     { label: 'Facebook', href: '' },
   ],
-  privacyHref: '', // [ENLACE A POLÍTICA DE PRIVACIDAD PENDIENTE]
+  // ID de medición de Google Analytics 4 (ej. 'G-XXXXXXXXXX'). Mientras esté vacío no se carga ningún script de Google.
+  analyticsId: '',
 }
 
 export const nav = [

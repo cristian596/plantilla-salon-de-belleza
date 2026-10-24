@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '../components/Button.jsx'
 
 // Barra fija solo en móvil. Aparece al salir del hero y se oculta en la sección de reservas.
+// Si el aviso de cookies está visible, la barra sube por encima de él (--cookie-banner-h).
 // Siempre montada: entra y sale con un desplazamiento corto (sin él con reduced motion).
 export function MobileBookingBar() {
   const [heroVisible, setHeroVisible] = useState(true)
@@ -31,7 +32,7 @@ export function MobileBookingBar() {
   return (
     <div
       inert={hidden}
-      className={`fixed inset-x-0 bottom-0 z-30 border-t border-ink/25 bg-cream px-[max(1.25rem,env(safe-area-inset-left),env(safe-area-inset-right))] pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] transition-[translate,visibility] duration-ui ease-out motion-reduce:translate-y-0 motion-reduce:transition-none md:hidden ${hidden ? 'invisible translate-y-full' : 'visible translate-y-0'}`}
+      className={`fixed inset-x-0 bottom-[var(--cookie-banner-h,0px)] z-30 border-t border-ink/25 bg-cream px-[max(1.25rem,env(safe-area-inset-left),env(safe-area-inset-right))] pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] transition-[translate,visibility,bottom] duration-ui ease-out motion-reduce:translate-y-0 motion-reduce:transition-none md:hidden ${hidden ? 'invisible translate-y-full' : 'visible translate-y-0'}`}
     >
       <Button href="#reservas" className="w-full">
         Solicitar cita
