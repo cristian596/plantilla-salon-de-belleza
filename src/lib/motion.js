@@ -1,5 +1,5 @@
 // Constantes de movimiento para JS. Deben coincidir con los tokens de src/styles/tailwind.css
-// (--duration-press, --duration-ui, --duration-enter, --duration-feedback) y con PLAN.md §7.
+// (--duration-press, --duration-ui, --duration-enter, --duration-feedback).
 export const STAGGER_MS = 70 // escalonado entre Reveal hermanos
 export const REVEAL_DELAY_MS = 30 // espera antes del primer Reveal inmediato (hero)
 export const CASE_FADE_MS = 200 // = --duration-ui: fundido del caso saliente del comparador

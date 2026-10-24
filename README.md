@@ -377,7 +377,6 @@ Cosas que **no existen todavía** o que quedaron por resolver:
 - **SEO y redes sociales:** `index.html` solo trae título, descripción e íconos. No hay imagen para compartir (`og:image`), etiquetas `og:*`, `canonical`, datos estructurados ni `sitemap.xml`; `robots.txt` permite todo. Pendiente si quieres mejor presencia en Google y al compartir el enlace.
 - **Dominio:** no se configura en el código; se conecta en Cloudflare Pages (ver `DESPLIEGUE-CLOUDFLARE.md`).
 - **Imágenes:** no hay script que genere versiones en varios tamaños (AVIF); las fotos se publican como WebP tal cual. Optimízalas antes de subirlas.
-- **Comentario viejo:** `src/lib/motion.js` menciona un `PLAN.md` que ya no está en el proyecto.
 - **Pruebas:** la plantilla no incluye pruebas automáticas.
 
 **Soporte.** Las condiciones de soporte y mantenimiento no están definidas en el proyecto (ver el pendiente de `LICENSE.md`).
