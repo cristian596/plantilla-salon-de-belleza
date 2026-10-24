@@ -1,6 +1,9 @@
 // Datos del salón. Todo lo que va entre [CORCHETES] está pendiente de confirmar.
 
 export const site = {
+  // true muestra el aviso "Imagen de muestra" en las fotos con muestra: true (src/content/imagenes.js).
+  // Ponlo en false cuando hayas sustituido todas las fotos.
+  mostrarAvisosMuestra: true,
   name: '[NOMBRE DEL SALÓN]',
   city: '[CIUDAD]',
   // Número de WhatsApp en formato internacional, solo dígitos (ej. 573001234567).

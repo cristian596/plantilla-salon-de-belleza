@@ -1,6 +1,7 @@
 import { Container } from '../components/Container.jsx'
 import { Section } from '../components/Section.jsx'
 import { Picture } from '../components/Picture.jsx'
+import { AvisoMuestra } from '../components/AvisoMuestra.jsx'
 import { Reveal, RevealGroup } from '../components/Reveal.jsx'
 import { serviceGroups } from '../content/services.js'
 import { copy } from '../content/copy.js'
@@ -52,14 +53,12 @@ function ServiceGroup({ group, flip }) {
     <RevealGroup as="article" id={`servicios-${group.id}`} aria-labelledby={titleId} className="scroll-mt-8">
       <div className="grid gap-6 md:grid-cols-12 md:gap-8">
         <Reveal className={`md:col-span-5 ${flip ? 'md:order-2' : ''}`}>
-          <div className="aspect-[3/2] bg-nude md:aspect-[3/4]">
+          <div className="relative aspect-[3/2] bg-nude md:aspect-[3/4]">
             <Picture
-              id={group.image.id}
-              alt={group.image.alt}
-              ratio={4 / 3}
-              sizes="(min-width: 1024px) 22vw, 40vw"
-              mobile={{ ratio: 2 / 3, media: '(max-width: 767px)', sizes: 'calc(100vw - 2.5rem)' }}
+              imagen={group.image}
+              mobile={{ media: '(max-width: 767px)' }}
             />
+            <AvisoMuestra imagen={group.image} />
           </div>
         </Reveal>
         <div className="md:col-span-7">

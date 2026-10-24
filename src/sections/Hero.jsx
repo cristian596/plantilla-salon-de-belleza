@@ -2,9 +2,10 @@ import { Container } from '../components/Container.jsx'
 import { Button } from '../components/Button.jsx'
 import { ArrowLink } from '../components/ArrowLink.jsx'
 import { Picture } from '../components/Picture.jsx'
+import { AvisoMuestra } from '../components/AvisoMuestra.jsx'
 import { Reveal, RevealGroup } from '../components/Reveal.jsx'
 import { hero } from '../content/site.js'
-import { heroImage } from '../content/images.js'
+import { imagenes } from '../content/imagenes.js'
 
 // Escritorio: texto | línea | retrato. Móvil: retrato recortado arriba y la acción visible sin scroll.
 export function Hero() {
@@ -17,16 +18,14 @@ export function Hero() {
       <Container className="grid lg:grid-cols-12">
         <div className="h-[40svh] min-h-64 lg:order-2 lg:col-span-6 lg:h-auto lg:min-h-[32rem] lg:border-l lg:border-ink/25 lg:pb-10 lg:pl-10">
           {/* La imagen del hero es el LCP: no se anima */}
-          <div className="h-full bg-nude">
+          <div className="relative h-full bg-nude">
             <Picture
-              id={heroImage.id}
-              alt={heroImage.alt}
-              ratio={1.25}
-              sizes="45vw"
-              mobile={{ ratio: 0.8, media: '(max-width: 1023px)', sizes: 'calc(100vw - 2.5rem)' }}
+              imagen={imagenes.hero}
+              mobile={{ media: '(max-width: 1023px)' }}
               priority
               className="object-[50%_30%]"
             />
+            <AvisoMuestra imagen={imagenes.hero} />
           </div>
         </div>
 

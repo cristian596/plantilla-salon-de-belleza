@@ -1,7 +1,7 @@
 import { Container } from '../components/Container.jsx'
 import { Section } from '../components/Section.jsx'
 import { Picture } from '../components/Picture.jsx'
-import { PendingNote } from '../components/PendingNote.jsx'
+import { AvisoMuestra } from '../components/AvisoMuestra.jsx'
 import { Reveal, RevealGroup } from '../components/Reveal.jsx'
 import { team, teamIntro } from '../content/team.js'
 import { copy } from '../content/copy.js'
@@ -40,8 +40,8 @@ export function Team() {
               className={`w-[82%] sm:w-[60%] lg:w-auto ${i % 2 ? 'self-end' : 'self-start'} ${layout[i]}`}
             >
               <div className="relative aspect-[3/4] overflow-hidden bg-ink-soft">
-                <Picture id={m.image.id} alt={m.image.alt} ratio={4 / 3} sizes="(min-width: 1024px) 30vw, 80vw" />
-                {m.isPlaceholder && <PendingNote overlay>Retrato de demostración</PendingNote>}
+                <Picture imagen={m.imagen} />
+                <AvisoMuestra imagen={m.imagen} />
               </div>
               <h3 className="mt-4 text-h3">{m.name}</h3>
               <p className="mt-1 text-body">{m.specialty}</p>

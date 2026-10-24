@@ -1,7 +1,7 @@
 import { Container } from '../components/Container.jsx'
 import { Section } from '../components/Section.jsx'
 import { Picture } from '../components/Picture.jsx'
-import { PendingNote } from '../components/PendingNote.jsx'
+import { AvisoMuestra } from '../components/AvisoMuestra.jsx'
 import { Reveal, RevealGroup } from '../components/Reveal.jsx'
 import { gallery, galleryIntro } from '../content/gallery.js'
 import { copy } from '../content/copy.js'
@@ -23,12 +23,12 @@ export function Results() {
 
         <div className="mt-10 grid gap-x-6 gap-y-8 lg:mt-12 lg:grid-cols-12 lg:gap-x-12">
           <Reveal index={2} className="lg:col-span-6">
-            <GalleryItem item={feature} ratio={1.25} aspect="aspect-[4/5]" sizes="(min-width: 1024px) 45vw, 100vw" />
+            <GalleryItem item={feature} aspect="aspect-[4/5]" />
           </Reveal>
           <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:col-span-6">
             {rest.map((item, i) => (
-              <Reveal key={item.id} index={3 + i}>
-                <GalleryItem item={item} ratio={4 / 3} aspect="aspect-[3/4]" sizes="(min-width: 1024px) 22vw, 50vw" />
+              <Reveal key={item.imagen.id} index={3 + i}>
+                <GalleryItem item={item} aspect="aspect-[3/4]" />
               </Reveal>
             ))}
           </div>
@@ -38,12 +38,12 @@ export function Results() {
   )
 }
 
-function GalleryItem({ item, ratio, aspect, sizes }) {
+function GalleryItem({ item, aspect }) {
   return (
     <figure>
       <div className={`relative ${aspect} overflow-hidden bg-nude`}>
-        <Picture id={item.id} alt={item.alt} ratio={ratio} sizes={sizes} />
-        {item.isPlaceholder && <PendingNote overlay>Demostración</PendingNote>}
+        <Picture imagen={item.imagen} />
+        <AvisoMuestra imagen={item.imagen} />
       </div>
       <figcaption className="mt-3 text-small text-ink-soft">{item.caption}</figcaption>
     </figure>

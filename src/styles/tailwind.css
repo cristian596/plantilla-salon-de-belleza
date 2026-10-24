@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Tokens de diseño. Ver PLAN.md, apartado 3. */
+/* Tokens de diseño. Paleta, tipografía y espaciado de la plantilla. */
 @theme {
   /* Color: fondo dominante, campos, tinta y un acento solo para acciones */
   --color-cream: #f7f1ea;

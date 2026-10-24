@@ -8,7 +8,7 @@ export const copy = {
   compare: {
     title: 'La diferencia, a la vista.',
     intro: 'Desliza la línea para comparar. Elige un caso para ver otro tratamiento.',
-    placeholderNote: 'Imagen de demostración, no es un resultado del salón.',
+    placeholderNote: 'Imagen de muestra, no es un resultado del salón',
   },
   results: {
     title: 'Trabajos de cabina',

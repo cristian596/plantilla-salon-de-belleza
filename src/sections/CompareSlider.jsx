@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Picture } from '../components/Picture.jsx'
-import { PendingNote } from '../components/PendingNote.jsx'
+import { AvisoMuestra } from '../components/AvisoMuestra.jsx'
 import { useReducedMotion } from '../hooks/useReducedMotion.js'
 import { DRAG_STEP_MS, NUDGE_MS, REVEAL_SETTLE_MS } from '../lib/motion.js'
 import { copy } from '../content/copy.js'
@@ -12,13 +12,12 @@ const BIG_STEP = 10
 // Imágenes de un caso. Todo se mueve con transform:
 // la capa "antes" se desplaza y su imagen se contra-desplaza, así recorta sin animar width ni clip-path.
 function Layers({ item, alt = true, pos, transition }) {
-  const sizes = '(min-width: 1024px) 60vw, 100vw'
   return (
     <>
-      <Picture id={item.after.id} alt={alt ? item.after.alt : ''} ratio={0.75} sizes={sizes} />
+      <Picture imagen={alt ? item.after : { ...item.after, alt: '' }} />
       <div className="absolute inset-0 overflow-hidden" style={{ transform: `translateX(${pos - 100}%)`, transition }}>
         <div className="absolute inset-0" style={{ transform: `translateX(${100 - pos}%)`, transition }}>
-          <Picture id={item.before.id} alt={alt ? item.before.alt : ''} ratio={0.75} sizes={sizes} />
+          <Picture imagen={alt ? item.before : { ...item.before, alt: '' }} />
         </div>
       </div>
     </>
@@ -186,7 +185,7 @@ export function CompareSlider({ item, outgoing = null, pos, setPos, nudge = fals
         </div>
       </div>
 
-      {item.isPlaceholder && <PendingNote overlay>{copy.compare.placeholderNote}</PendingNote>}
+      <AvisoMuestra imagen={[item.before, item.after]}>{copy.compare.placeholderNote}</AvisoMuestra>
     </div>
   )
 }
