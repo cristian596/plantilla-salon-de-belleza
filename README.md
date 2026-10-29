@@ -369,7 +369,7 @@ Esta web es estática: `npm run build` genera la carpeta **`dist`**, que es la q
 
 Cosas que **no existen todavía** o que quedaron por resolver:
 
-- **`LICENSE.md`:** no existe. Hasta que se agregue, la licencia, el soporte del proveedor y la jurisdicción no están definidos; acuérdalos por escrito con quien te vendió la plantilla.
+- **Licencia:** está en `Licencia.md` (versión 1.0). Es un documento modelo: un abogado debe revisarlo antes de usarlo comercialmente, y hay que completar los datos de contacto y de identificación del licenciante antes de vender.
 - **Revisión legal:** los textos de `legal.js` son borradores y necesitan un abogado. Quedan campos `[ENTRE CORCHETES]` (razón social, NIT, dirección, correo, correo de PQR, proveedor de hosting y fecha de actualización).
 - **Datos duplicados:** los datos del salón están en `site.js` y los del responsable legal en `legal.js` (`responsable`); hay que mantenerlos iguales a mano.
 - **Textos con datos escritos a mano:** `[CIUDAD]` en `hero.lead` y `[X horas]` en `copy.booking.steps` no se leen de `site.js`.
@@ -379,7 +379,7 @@ Cosas que **no existen todavía** o que quedaron por resolver:
 - **Imágenes:** no hay script que genere versiones en varios tamaños (AVIF); las fotos se publican como WebP tal cual. Optimízalas antes de subirlas.
 - **Pruebas:** la plantilla no incluye pruebas automáticas.
 
-**Soporte.** Las condiciones de soporte y mantenimiento no están definidas en el proyecto (ver el pendiente de `LICENSE.md`).
+**Soporte.** La licencia incluye tres (3) meses de soporte técnico por correo o WhatsApp, limitado a errores de la plantilla tal como se entregó (cláusula 8 de `Licencia.md`). La personalización para un cliente se cotiza aparte.
 
 **Si algo se rompe:**
 
